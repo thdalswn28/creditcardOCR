@@ -1,3 +1,4 @@
+Source: https://www.pyimagesearch.com/2017/07/17/credit-card-ocr-with-opencv-and-python/
 Automatic recognition and output of credit card number using Python and opencv
 
 # Usage
@@ -10,5 +11,3 @@ Credit Card Type: Visa
 
 Credit Card #: 4000123456789010
 
-
-Source: https://www.pyimagesearch.com/2017/07/17/credit-card-ocr-with-opencv-and-python/
