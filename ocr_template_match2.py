@@ -55,5 +55,23 @@ for (i, c) in enumerate(refCnts):
 rectKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (9, 3))
 sqKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
 
-cv2.imshow("Image", ref)
+# load the input image, resize it, and convert it to grayscale
+image = cv2.imread(args["image"])
+image = imutils.resize(image, width=300)
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+# apply a tophat (whitehat) morphological operator to find light
+# regions against a dark background (i.e., the credit card numbers)
+tophat = cv2.morphologyEx(gray, cv2.MORPH_TOPHAT, rectKernel)
+
+# compute the Scharr gradient of the tophat image, then scale
+# the rest back into the range [0, 255]
+gradX = cv2.Sobel(tophat, ddepth=cv2.CV_32F, dx=1, dy=0,
+	ksize=-1)
+gradX = np.absolute(gradX)
+(minVal, maxVal) = (np.min(gradX), np.max(gradX))
+gradX = (255 * ((gradX - minVal) / (maxVal - minVal)))
+gradX = gradX.astype("uint8")
+
+cv2.imshow("Image", gradX)
 cv2.waitKey(0)
