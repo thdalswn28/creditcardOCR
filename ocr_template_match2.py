@@ -57,7 +57,7 @@ sqKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
 
 # load the input image, resize it, and convert it to grayscale
 image = cv2.imread(args["image"])
-image = imutils.resize(image, width=300)
+image = imutils.resize(image, height=300)
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 # apply a tophat (whitehat) morphological operator to find light
