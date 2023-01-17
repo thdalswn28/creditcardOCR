@@ -73,5 +73,22 @@ gradX = np.absolute(gradX)
 gradX = (255 * ((gradX - minVal) / (maxVal - minVal)))
 gradX = gradX.astype("uint8")
 
-cv2.imshow("Image", gradX)
+# apply a closing operation using the rectangular kernel to help
+# cloes gaps in between credit card number digits, then apply
+# Otsu's thresholding method to binarize the image
+gradX = cv2.morphologyEx(gradX, cv2.MORPH_CLOSE, rectKernel)
+thresh = cv2.threshold(gradX, 0, 255,
+	cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
+# apply a second closing operation to the binary image, again
+# to help close gaps between credit card number regions
+thresh = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, sqKernel)
+
+# find contours in the thresholded image, then initialize the
+# list of digit locations
+cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
+	cv2.CHAIN_APPROX_SIMPLE)
+cnts = imutils.grab_contours(cnts)
+locs = []
+
+cv2.imshow("Image", thresh)
 cv2.waitKey(0)
