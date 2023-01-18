@@ -102,7 +102,7 @@ for (i, c) in enumerate(cnts):
 	if ar > 2.5 and ar < 4.0:
 		# contours can further be pruned on minimum/maximum width
 		# and height
-		if (w > 20 and w < 35) and (h > 5 and h < 10):
+		if (w > 20 and w < 27.5) and (h > 5 and h < 10):
 			# append the bounding box region of the digits group
 			# to our locations list
 			locs.append((x, y, w, h))
